@@ -64,7 +64,6 @@ export default function CarouselComponent() {
 
 	const dispatch = useDispatch();
 	useEffect(() => {
-		console.log(users);
 	    if(!users.hasOwnProperty('results') ){
 	    	(async () => {
 	    		if(!sessionStorage['users']){
@@ -98,7 +97,7 @@ export default function CarouselComponent() {
 			<div>
 				<Carousel ref={slider} navButtonsAlwaysInvisible={true} autoPlay={false} animation="slide" indicators={false}>
 		            {
-		                usersState.map( (item, i) =><Item key={i} item={item} />)
+		                usersState.map( (item, i) =><Item key={item[0].cell} item={item} />)
 		            }
         		</Carousel>
 			</div>

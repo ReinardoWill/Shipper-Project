@@ -92,10 +92,10 @@ const settings = {
 function App() {
   const classes = useStyles();
   const search  = useSelector(state => state.user.search);
-  const dispatch = useDispatch();
   const handleChange=(event)=>{
     dispatch(setSearchText(event.target.value));
   } 
+  const dispatch = useDispatch();
   return (
     <div className={classes.root}>
       <CssBaseline />
