@@ -64,9 +64,10 @@ export default function CarouselComponent() {
 
 	const dispatch = useDispatch();
 	useEffect(() => {
-	    if(!users.hasOwnProperty('results')){
+		console.log(users);
+	    if(!users.hasOwnProperty('results') ){
 	    	(async () => {
-	    		if(sessionStorage.getItem('users').length==0){
+	    		if(!sessionStorage['users']){
 	    			 const funct1 = await dispatch(fetchUser());
 	    		}else{
 	    			const funct2 = await dispatch(setUserFromStorage(JSON.parse(sessionStorage.getItem('users'))));
