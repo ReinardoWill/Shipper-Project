@@ -1,10 +1,7 @@
 import React,{useState,setState,useEffect,useRef} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import ReactDOM from "react-dom";
-import  {fetchMovie,updateReset} from 'Redux/movie.js';
-import MovieCard from 'Components/moviecard.js';
-import PosterModal from 'Components/postermodal.js';
-import Details from 'Components/details.js';
+import CarouselComponent from 'Components/carousel.js';
 import { BrowserRouter as Router,Switch,Route } from "react-router-dom";
 import {
   AppBar,
@@ -30,14 +27,14 @@ import {
   Divider,
   List ,
   ListItem ,
-  ListItemText
+  ListItemText,
+  ListItemIcon,
+  Paper
 } from "@material-ui/core";
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-
-
-
+import HomeIcon from '@material-ui/icons/Home';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import  {setSearchText} from 'Redux/user.js';
 
 const drawerWidth = 240;
 
@@ -48,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
 	appBar: {
 	    width: `calc(100% - ${drawerWidth}px)`,
 	    marginLeft: drawerWidth,
+      backgroundColor:'#FFFFFF',
+      shadows: ["none"]
 	},
 	drawer: {
 	    width: drawerWidth,
@@ -60,24 +59,48 @@ const useStyles = makeStyles((theme) => ({
 	toolbar: theme.mixins.toolbar,
 	content: {
 	    flexGrow: 1,
-	    backgroundColor: theme.palette.background.default,
+	    backgroundColor: '#E7E6E6',
 	    padding: theme.spacing(3),
+      display: "flex",
+      flexFlow: "column",
+      height: "100vh"
 	},
+
+  image:{
+    width: 101,
+    height: 21,
+    margin: 30,
+  },
+  center:{
+    align:'center'
+  },
+  margin:{
+    margin: 10
+  }
 }));
+
+const settings = {
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+};
+
 
 
 
 function App() {
-  	const classes = useStyles();
-
+  const classes = useStyles();
+  const search  = useSelector(state => state.user.search);
+  const dispatch = useDispatch();
+  const handleChange=(event)=>{
+    dispatch(setSearchText(event.target.value));
+  } 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar elevation={0} position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            Shipper Project
-          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -88,21 +111,12 @@ function App() {
         }}
         anchor="left"
       >
+        <img src="https://shipper.id//assets/img/shipperLogo.png" className={classes.image} />
         <div className={classes.toolbar} />
-        <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['Beranda', 'Driver Management', 'Pickup'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{index === 0 ? <HomeIcon /> : index === 1 ? <AccountCircleIcon /> : <DateRangeIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
@@ -110,6 +124,24 @@ function App() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+        <Paper>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+                <Typography variant="body1" gutterBottom>
+                  DRIVER MANAGEMENT
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  Driver yang bekerja untuk anda
+                </Typography>
+          </Grid>
+          <Grid item xs={2}/>
+          <Grid item xs={4}>
+            <TextField id="outlined-basic" label="Cari Driver" value={search} onChange={handleChange} variant="outlined" size="small" className={classes.margin} />
+          </Grid>
+        </Grid>
+        </Paper>
+        <br/>
+        <CarouselComponent />
       </main>
     </div>
   );

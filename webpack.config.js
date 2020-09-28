@@ -9,7 +9,14 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
-      }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',                    
+          'css-loader'
+        ]
+      },
     ]
   },
   resolve: {
@@ -17,7 +24,8 @@ module.exports = {
     alias: {
       Components: path.resolve(__dirname, 'src/Components/'),
       Redux: path.resolve(__dirname, 'src/Redux/'),
-      Services: path.resolve(__dirname, 'src/Services/')
+      Services: path.resolve(__dirname, 'src/Services/'),
+      css: path.resolve(__dirname, 'src/css/')
     }
   },
   output: {

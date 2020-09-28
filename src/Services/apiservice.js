@@ -1,12 +1,14 @@
 import axios from "axios";
 
+const API_URL = "https://randomuser.me/api/?results=30";
 
-const API_URL = "http://www.omdbapi.com?apikey=faf7e5bb";
 
 class ApiService {
-  	search(title, year,page) {
+
+
+  	fetchUsers() {
 	    return axios
-	      .post(API_URL + "&s="+title+"&y="+year+"&page="+page)
+	      .get(API_URL)
 	      .then(response => {
 	        return response.data;
 	    });

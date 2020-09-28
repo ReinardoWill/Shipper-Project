@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import  movie from 'Redux/movie.js';
+import  user from 'Redux/user.js';
 
 const reducer = combineReducers({
-	movie
+	user
 })
 
 
